@@ -5,7 +5,6 @@ Below is my configuration for building this scraper locally.
 Built and running using macOS 12.3.1 and Python 3.10.3.
 
 ## Install Dependencies
-Install the following using your preferred Terminal app.<br/> 
 Please double check all main sites before running code hardcorded here, just in case the maintainers' instructions have changed.
 
 ### Xcode Command Line Tools
@@ -34,6 +33,13 @@ Please double check all main sites before running code hardcorded here, just in 
 
     ```
 
+### Automatic Installation 
+The following dependencies can be automatically installed together using the `requirements.txt` file, or see further below to install separately.
+
+    ```
+    pip install -r requirements.txt
+    ``` 
+
 ### Selenium
 [Selenium](https://www.selenium.dev/documentation/webdriver/getting_started/) is used to automate browser actions.
 - Install the [Selenium library for Python](https://www.selenium.dev/documentation/webdriver/getting_started/install_library/).
@@ -47,6 +53,20 @@ Please double check all main sites before running code hardcorded here, just in 
 
     ```
     pip install webdriver-manager
+    ```
+
+### psycopg2-binary
+[psycopg2-binary](https://pypi.org/project/psycopg2-binary/) is an adapater for PostgreSQL.
+
+    ```
+    pip install psycopg2-binary
+    ```
+
+### SQLAlchemy
+[SQLAlchemy](https://docs.sqlalchemy.org/en/14/orm/quickstart.html) is an ORM to map Python objects to PostgreSQL tables.
+
+    ```
+    pip install sqlalchemy
     ```
 
 ## Configure Dependencies
