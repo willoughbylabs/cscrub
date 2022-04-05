@@ -34,11 +34,12 @@ Please double check all main sites before running code hardcorded here, just in 
     ```
 
 ### Automatic Installation 
-The following dependencies can be automatically installed together using the `requirements.txt` file, or see further below to install separately.
+The following dependencies can be automatically installed together using the `requirements.txt` file.
 
     ```
     pip install -r requirements.txt
     ``` 
+To see what this command installs, or to install the components separately, please see below.
 
 ### Selenium
 [Selenium](https://www.selenium.dev/documentation/webdriver/getting_started/) is used to automate browser actions.
