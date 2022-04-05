@@ -1,4 +1,5 @@
 # CScrub - Scraper for Vote-Record Database
+Please note: This project is currently being refactored. All features are not yet operational in this build.
 
 ## Summary
 Extracts council members, legistlation, meetings, and votes from the Chicago City Clerk's website. Saves to a PostgreSQL database to power the [CScrub API](https://github.com/willoughbylabs/cscrub-api). 
