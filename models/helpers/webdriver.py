@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import time
 
@@ -15,9 +16,8 @@ def quit_webdriver(driver):
 
 def search_bing():
     driver = start_webdriver()
-
+    driver.implicitly_wait(10)
     driver.get("https://bing.com")
-    time.sleep(5)
     element = driver.find_element_by_id("sb_form_q")
     element.send_keys("WebDriver")
     element.submit()
