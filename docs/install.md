@@ -41,10 +41,9 @@ Please double check all main sites before running code hardcorded here, just in 
     ```
     pip install selenium
     ```
-- Download [appropriate browser driver](https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/) for your browser of choice. 
 
 ### Webdriver Manager
-[Webdriver Manager](https://github.com/SergeyPirogov/webdriver_manager) keeps the webdriver version updated with the broswer version. 
+[Webdriver Manager](https://github.com/SergeyPirogov/webdriver_manager) updates the webdriver version to remain compatible with the broswer version. 
 
     ```
     pip install webdriver-manager
@@ -55,6 +54,7 @@ Please double check all main sites before running code hardcorded here, just in 
 ### pyenv
 See [pyenv's COMMANDS.md](https://github.com/pyenv/pyenv/blob/master/COMMANDS.md) for additional usage info.
 - View list of available Python versions and install 3.10.3 (or later, but not fully tested).
+
     ```shell
     pyenv install --list
     pyenv install version
@@ -65,14 +65,16 @@ See [pyenv's COMMANDS.md](https://github.com/pyenv/pyenv/blob/master/COMMANDS.md
 ### pyenv-virtualenv
 See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for additional usage info.
 - Create a new virtual environment specifying the preferred Python version from your installs. 
-```shell
-pyenv virtualenv 3.10.3 name-of-virtualenv
 
-# i.e. pyenv virtualenv 3.10.3 cscrub3.10.3
-```
+    ```shell
+    pyenv virtualenv 3.10.3 name-of-virtualenv
+
+    # i.e. pyenv virtualenv 3.10.3 cscrub3.10.3
+    ```
 - In the cscrub directory, add a `.python-version`. Inside the file, write the name of the virtual environment to [auto-activate the virtualenv](https://github.com/pyenv/pyenv-virtualenv#activate-virtualenv)
-```shell
-# Inside .python-version, for example:
 
-cscrub3.10.3
-```
+    ```shell
+    # Inside .python-version, for example:
+
+    cscrub3.10.3
+    ```
