@@ -1,5 +1,9 @@
+from .helpers import wd_connect
 from .helpers.db_connect import Base, engine, Session
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
 from sqlalchemy import Column, String, Integer
+import time
 
 
 class Alderperson(Base):
@@ -13,7 +17,7 @@ class Alderperson(Base):
     def __init__(self, name):
         """Class constructor: id, name"""
 
-        # self.id = id
+        self.id = id
         self.name = name
 
     def __repr__(self):
@@ -21,3 +25,53 @@ class Alderperson(Base):
 
         alderperson = self
         return f"<Alderperson {alderperson.id} {alderperson.name}>"
+
+    @classmethod
+    def fetch_members(cls):
+        """Fetch council members from City Clerk site and add <id, name> of members to Alderperson table."""
+
+        url = "https://chicago.legistar.com/People.aspx"
+        driver = wd_connect.start_webdriver()
+
+        try:
+            members = []
+
+            driver.get(url)
+            time.sleep(1)
+            # Select "all" from view menu
+            view_btn = driver.find_element_by_xpath(
+                "//*[@id='ctl00_ContentPlaceHolder1_menuPeople']/ul/li[4]/a"
+            )
+            view_btn.click()
+            time.sleep(1)
+            # Select "page 1" from view menu
+            webdriver.ActionChains(driver).send_keys(Keys.ARROW_DOWN).send_keys(
+                Keys.ARROW_DOWN
+            ).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ENTER).perform()
+
+            page1_members = driver.find_elements_by_xpath(
+                "//*[contains(@id,'_hypPerson')]"
+            )
+            for member in page1_members:
+                members.append(member.text)
+
+            # Select "page 2" from view menu
+            page2 = driver.find_element_by_xpath(
+                "//*[@id='ctl00_ContentPlaceHolder1_gridPeople_ctl00']/thead/tr[1]/td/table/tbody/tr/td/div[1]/a[2]"
+            )
+            page2.click()
+            time.sleep(1)
+            page2_members = driver.find_elements_by_xpath(
+                "//*[contains(@id,'_hypPerson')]"
+            )
+            for member in page2_members:
+                members.append(member.text)
+
+            return members
+        except Exception as e:
+            print(
+                "Error occurred. Unable to fetch council members from City Clerk site.",
+                e,
+            )
+        finally:
+            wd_connect.quit_webdriver(driver)
