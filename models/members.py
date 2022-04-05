@@ -1,5 +1,5 @@
 from .helpers import wd_connect
-from .helpers.db_connect import Base, engine, Session
+from .helpers.db_connect import Base, engine, Session, reset_index
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from sqlalchemy import Column, String, Integer
@@ -17,7 +17,6 @@ class Alderperson(Base):
     def __init__(self, name):
         """Class constructor: id, name"""
 
-        self.id = id
         self.name = name
 
     def __repr__(self):
@@ -35,20 +34,20 @@ class Alderperson(Base):
 
         try:
             members = []
-
             driver.get(url)
             time.sleep(1)
+
             # Select "all" from view menu
             view_btn = driver.find_element_by_xpath(
                 "//*[@id='ctl00_ContentPlaceHolder1_menuPeople']/ul/li[4]/a"
             )
             view_btn.click()
             time.sleep(1)
+
             # Select "page 1" from view menu
             webdriver.ActionChains(driver).send_keys(Keys.ARROW_DOWN).send_keys(
                 Keys.ARROW_DOWN
             ).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ENTER).perform()
-
             page1_members = driver.find_elements_by_xpath(
                 "//*[contains(@id,'_hypPerson')]"
             )
@@ -66,12 +65,45 @@ class Alderperson(Base):
             )
             for member in page2_members:
                 members.append(member.text)
-
             return members
         except Exception as e:
             print(
                 "Error occurred. Unable to fetch council members from City Clerk site.",
                 e,
             )
+            wd_connect.quit_webdriver(driver)
         finally:
             wd_connect.quit_webdriver(driver)
+
+    @classmethod
+    def create_records(cls, members_arr):
+        """Create a new Alderperson row object."""
+
+        try:
+            members = []
+            for member in members_arr:
+                new_member = cls(name=member)
+                members.append(new_member)
+            return members
+        except Exception as e:
+            print(
+                "Error occurred. Unable to create database records from members array.",
+                e,
+            )
+
+    @classmethod
+    def add_members_to_db(cls, records):
+        """Add council members to database."""
+
+        try:
+            session = Session()
+            session.query(cls).delete()
+            reset_index("alderpersons")
+            print("Adding council members to database...")
+            session.add_all(records)
+            session.commit()
+        except Exception as e:
+            print("Error occured. Unable to add records to PostgreSQL database.", e)
+        finally:
+            print(f"Council members added to database: {len(records)}")
+            session.close()
