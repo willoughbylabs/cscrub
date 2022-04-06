@@ -16,13 +16,12 @@ City Council vote data is publicly available on the [City Clerk's website](https
 ## Installation
 You could build this bot from source to build your own database, or access the information through [an upcoming API](https://github.com/willoughbylabs/cscrub-api).
 
-To build from source, see install.md.
+To build from source, see [install.md](/docs/install.md).
 
 ## Caveats
-- Currently only fetches page 1 of meetings from City Clerk calendar.
-- Currently only fetches first 200 legislation for each meeting.
-- Table relationships are not yet defined.
-- Potentially time intensive: 50 votes * 200+ legislation per meeting * 100 meetings = (~45K legislation, ~2.5M votes).
+- Only fetches the last 100 City Council meetings (through 9/14/2016).
+- Only fetches first 200 legislation for each meeting.
+- Potentially time intensive: 50 votes * 200 legislation/meeting * 100 meetings = ~45K legislation, ~2.5M votes.
 
-## Resources
-A shoutout to these folks for the assists. [resources.md](/docs/resources.md)
+<!-- ## Resources
+A shoutout to these folks for the assists. [resources.md](/docs/resources.md) -->
