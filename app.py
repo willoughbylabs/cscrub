@@ -7,11 +7,13 @@ from models.legislation import Legislation
 create_tables_in_db = False
 add_members_to_db = False
 add_meetings_to_db = False
+add_legislation_to_db = True
 set_legislation_links_list = True
 links_list = [
-    "https://chicago.legistar.com/MeetingDetail.aspx?ID=818175&GUID=D65139E8-BF1C-4F44-9CE4-3C40DA5EC1E9"
+    "https://chicago.legistar.com/MeetingDetail.aspx?ID=810818&GUID=2E83D3EA-0E23-46F7-A54C-D342C45BCA9E",
+    "https://chicago.legistar.com/MeetingDetail.aspx?ID=448681&GUID=2F6FF8B5-B8C0-425C-A5A0-AF7120B4F3FC",
+    "https://chicago.legistar.com/MeetingDetail.aspx?ID=818175&GUID=D65139E8-BF1C-4F44-9CE4-3C40DA5EC1E9",
 ]
-add_legislation_to_db = True
 
 # APP
 if create_tables_in_db:

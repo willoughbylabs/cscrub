@@ -46,16 +46,34 @@ class Legislation(Base):
                 driver.get(link)
                 time.sleep(1)
                 rss_btn = driver.find_element_by_xpath("//*[@id='ctl00_ButtonRSS']")
+            except Exception as e:
+                print(
+                    f"Error occurred. Unable to fetch legislation from City Clerk RSS feed. \nLink at index {index} may be incorrect:\n{link}\nSkipping link.",
+                    e,
+                )
+                continue
+            try:
                 rss_btn.click()
                 time.sleep(1)
                 driver.switch_to.window(driver.window_handles[-1])
                 url = driver.current_url
                 entries = wd_connect.fetch_rss_entries(url, "legislation")
-                return entries
+                if entries[1].title == "No records":
+                    print(
+                        "No legislation entries found for this meeting date. Continuing to next meeting(s)."
+                    )
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[-1])
+                    continue
+                driver.close()
+                driver.switch_to.window(driver.window_handles[-1])
+                legislation_entries.append(entries)
             except Exception as e:
                 print(
-                    f"Error occurred. Unable to fetch legislation from City Clerk RSS feeds.\nLink at index {index} may be incorrect:\n{link}\nSkipping link.",
+                    "Error occurred. Unable to parse legislation entries from City Clerk RSS feed.",
                     e,
                 )
-            finally:
-                wd_connect.quit_webdriver()
+                continue
+
+        wd_connect.quit_webdriver(driver)
+        return legislation_entries
