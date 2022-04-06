@@ -1,4 +1,7 @@
+from models.helpers import wd_connect
 from .helpers.db_connect import Base, engine, Session
+from .helpers import wd_connect
+import time
 from sqlalchemy import Column, String, Integer
 
 
@@ -30,3 +33,29 @@ class Legislation(Base):
 
         legislation = self
         return f"<Legislation {legislation.id} {legislation.record_num} {legislation.mtg_date}>"
+
+    @classmethod
+    def fetch_legislation(cls, links):
+        """Fetch legislation from City Clerk RSS feed."""
+
+        legislation_entries = []
+        driver = wd_connect.start_webdriver()
+
+        for index, link in enumerate(links):
+            try:
+                driver.get(link)
+                time.sleep(1)
+                rss_btn = driver.find_element_by_xpath("//*[@id='ctl00_ButtonRSS']")
+                rss_btn.click()
+                time.sleep(1)
+                driver.switch_to.window(driver.window_handles[-1])
+                url = driver.current_url
+                entries = wd_connect.fetch_rss_entries(url, "legislation")
+                return entries
+            except Exception as e:
+                print(
+                    f"Error occurred. Unable to fetch legislation from City Clerk RSS feeds.\nLink at index {index} may be incorrect:\n{link}\nSkipping link.",
+                    e,
+                )
+            finally:
+                wd_connect.quit_webdriver()

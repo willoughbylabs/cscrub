@@ -16,11 +16,25 @@ def quit_webdriver(driver):
 
 def fetch_rss_entries(url, type):
     """Fetch and return entries from an RSS feed."""
+
     if type == "meetings":
         try:
             document = feedparser.parse(url)
             return document.entries
         except Exception as e:
             print(
-                "Error occurred. Unable to fetch and parse meetings entries from RSS feed."
+                "Error occurred. Unable to fetch and parse meetings entries from RSS feed.",
+                e,
+            )
+
+    if type == "legislation":
+        try:
+            document = feedparser.parse(url)
+            feed_title = {"feed_title", document.feed.title}
+            document.entries.insert(0, feed_title)
+            return document.entries
+        except Exception as e:
+            print(
+                "Error occurred. Unable to fetch and parse legislation entries from RSS feed.",
+                e,
             )
