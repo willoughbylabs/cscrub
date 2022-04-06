@@ -32,7 +32,35 @@ Please double check all main sites before running code hardcorded here, just in 
     brew install pyenv-virtualenv
 
     ```
+## Configure Dependencies
 
+### pyenv
+See [pyenv's COMMANDS.md](https://github.com/pyenv/pyenv/blob/master/COMMANDS.md) for additional usage info.
+- View list of available Python versions and install 3.10.3 (or later, but not fully tested).
+
+    ```shell
+    pyenv install --list
+    pyenv install version
+
+    # i.e. pyenv install 3.10.3
+    ```
+
+### pyenv-virtualenv
+See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for additional usage info.
+- Create a new virtual environment specifying the preferred Python version from your installs. 
+
+    ```shell
+    pyenv virtualenv 3.10.3 name-of-virtualenv
+
+    # i.e. pyenv virtualenv 3.10.3 cscrub3.10.3
+    ```
+- In the cscrub directory, add a `.python-version`. Inside the file, write the name of the virtual environment to [auto-activate the virtualenv](https://github.com/pyenv/pyenv-virtualenv#activate-virtualenv)
+
+    ```shell
+    # Inside .python-version, for example:
+
+    cscrub3.10.3
+    ```
 ## Install Python Dependencies
 The following dependencies can be automatically installed together using the `requirements.txt` file.
 
@@ -75,34 +103,4 @@ To see what this command installs, or to install the components separately, plea
 
     ```
     pip install feedparser
-    ```
-
-## Configure Dependencies
-
-### pyenv
-See [pyenv's COMMANDS.md](https://github.com/pyenv/pyenv/blob/master/COMMANDS.md) for additional usage info.
-- View list of available Python versions and install 3.10.3 (or later, but not fully tested).
-
-    ```shell
-    pyenv install --list
-    pyenv install version
-
-    # i.e. pyenv install 3.10.3
-    ```
-
-### pyenv-virtualenv
-See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for additional usage info.
-- Create a new virtual environment specifying the preferred Python version from your installs. 
-
-    ```shell
-    pyenv virtualenv 3.10.3 name-of-virtualenv
-
-    # i.e. pyenv virtualenv 3.10.3 cscrub3.10.3
-    ```
-- In the cscrub directory, add a `.python-version`. Inside the file, write the name of the virtual environment to [auto-activate the virtualenv](https://github.com/pyenv/pyenv-virtualenv#activate-virtualenv)
-
-    ```shell
-    # Inside .python-version, for example:
-
-    cscrub3.10.3
     ```
