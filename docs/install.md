@@ -4,7 +4,7 @@ Below is my configuration for building this scraper locally.
 ## My Configuration
 Built and running using macOS 12.3.1 and Python 3.10.3.
 
-## Install Dependencies
+## Install Mac Dependencies
 Please double check all main sites before running code hardcorded here, just in case the maintainers' instructions have changed.
 
 ### Xcode Command Line Tools
@@ -33,7 +33,7 @@ Please double check all main sites before running code hardcorded here, just in 
 
     ```
 
-### Automatic Installation 
+## Install Python Dependencies
 The following dependencies can be automatically installed together using the `requirements.txt` file.
 
     ```
@@ -68,6 +68,13 @@ To see what this command installs, or to install the components separately, plea
 
     ```
     pip install sqlalchemy
+    ```
+
+### feedparser
+[feedparser](https://pypi.org/project/feedparser/) helps parse an RSS feed.
+
+    ```
+    pip install feedparser
     ```
 
 ## Configure Dependencies
