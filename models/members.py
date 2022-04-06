@@ -77,7 +77,7 @@ class Alderperson(Base):
 
     @classmethod
     def create_records(cls, members_arr):
-        """Create a new Alderperson row object."""
+        """Create new Alderperson row objects."""
 
         try:
             members = []
