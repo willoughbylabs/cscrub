@@ -1,3 +1,4 @@
+from os import remove
 from models.helpers import wd_connect
 from .helpers.db_connect import Base, engine, Session
 from .helpers import wd_connect
@@ -104,11 +105,21 @@ class Legislation(Base):
                 other_keys = {"title": title, "result": result, "action_text": action}
                 return other_keys
 
-            formatted_entries = []
+            def remove_no_results(entry):
+                """Checks if a legislation entry contains no result. If no result found, it will then be removed from the formatted_entries array."""
+                if entry["result"] == "":
+                    print(
+                        f"Empty legislation result found. Skipping legislation record number: {entry['record_num']}"
+                    )
+                    return False
+                return True
+
+            parsed_entries = []
             for leg_per_mtg in entries_arr:
                 mtg_title = leg_per_mtg[0]["feed_title"]
                 date = get_date_from_title(mtg_title)
                 leg_per_mtg.pop(0)
+
                 for leg in leg_per_mtg:
                     formatted_entry = {}
                     formatted_entry["mtg_date"] = date
@@ -116,7 +127,16 @@ class Legislation(Base):
                     formatted_entry["type"] = leg.tags[0].term
                     other_entries = other_keys(leg.summary)
                     formatted_entry.update(other_entries)
-                    formatted_entries.append(formatted_entry)
+                    parsed_entries.append(formatted_entry)
+                print(
+                    f"Parsed {len(leg_per_mtg)} legislation from RSS feed for meeting date: {date}"
+                )
+            print(f"Removing legislation with no results or votes...")
+            parsed_entries_iterator = filter(remove_no_results, parsed_entries)
+            formatted_entries = list(parsed_entries_iterator)
+            print(
+                f"Formatted {len(formatted_entries)} total legislation from RSS feed."
+            )
             return formatted_entries
 
         records = format_rss_entries(entries)
