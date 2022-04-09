@@ -1,6 +1,6 @@
 from os import remove
 from models.helpers import wd_connect
-from .helpers.db_connect import Base, engine, Session
+from .helpers.db_connect import Base, engine, Session, reset_index
 from .helpers import wd_connect
 import re
 from sqlalchemy import Column, String, Integer
@@ -139,5 +139,33 @@ class Legislation(Base):
             )
             return formatted_entries
 
-        records = format_rss_entries(entries)
+        formatted_entries = format_rss_entries(entries)
+        records = []
+        for entry in formatted_entries:
+            rec_num = entry["record_num"].replace("-", "")
+            legislation = Legislation(
+                record_num=rec_num,
+                type=entry["type"],
+                title=entry["title"],
+                result=entry["result"],
+                action_text=entry["action_text"],
+                mtg_date=entry["mtg_date"],
+            )
+            records.append(legislation)
         return records
+
+    @classmethod
+    def add_legislation_to_db(cls, records):
+        """Add legislation to database."""
+
+        try:
+            session = Session()
+            session.query(cls).delete()
+            reset_index("legislation")
+            print("Adding legislation to database...")
+            session.add_all(records)
+            session.commit()
+            session.close()
+            print(f"{len(records)} total legislation added to database.")
+        except Exception as e:
+            print("Error occurred. Unable to add legislation to database.", e)
