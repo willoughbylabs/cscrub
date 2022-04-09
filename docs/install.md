@@ -120,7 +120,7 @@ See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for a
 - This option can be further customized using `set_legislation_links_list` and `links_list`.
 
 ### `set_legislation_links_list`
-- `FALSE`, by default: the bot will fetch legislation from every meeting in the database. 
+- `FALSE`, by default: the bot will fetch legislation for every meeting in the database. 
 - To override this behavior, and only fetch legislation from specific meetings, set this option to `TRUE`. 
 - Use `links_list` to set which meetings to fetch legislation from.
 
