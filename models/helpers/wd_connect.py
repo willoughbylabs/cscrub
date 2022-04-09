@@ -30,7 +30,7 @@ def fetch_rss_entries(url, type):
     if type == "legislation":
         try:
             document = feedparser.parse(url)
-            feed_title = {"feed_title", document.feed.title}
+            feed_title = {"feed_title": document.feed.title}
             document.entries.insert(0, feed_title)
             return document.entries
         except Exception as e:
