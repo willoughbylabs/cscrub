@@ -59,7 +59,7 @@ class Legislation(Base):
                 entries = wd_connect.fetch_rss_entries(url, "legislation")
                 if entries[1].title == "No records":
                     print(
-                        "No legislation entries found for this meeting date. Continuing to next meeting(s)."
+                        "No legislation entries found for this meeting: {link}. Continuing to next meeting..."
                     )
                     driver.close()
                     driver.switch_to.window(driver.window_handles[-1])
@@ -107,9 +107,10 @@ class Legislation(Base):
 
             def remove_no_results(entry):
                 """Checks if a legislation entry contains no result. If no result found, it will then be removed from the formatted_entries array."""
+
                 if entry["result"] == "":
                     print(
-                        f"Empty legislation result found. Skipping legislation record number: {entry['record_num']}"
+                        f"Skipping legislation record number {entry['record_num']} from {entry['mtg_date']} (no result or vote found)."
                     )
                     return False
                 return True
@@ -119,7 +120,9 @@ class Legislation(Base):
                 mtg_title = leg_per_mtg[0]["feed_title"]
                 date = get_date_from_title(mtg_title)
                 leg_per_mtg.pop(0)
-
+                print(
+                    f"Parsing {len(leg_per_mtg)} legislation from RSS feed for meeting date: {date}"
+                )
                 for leg in leg_per_mtg:
                     formatted_entry = {}
                     formatted_entry["mtg_date"] = date
@@ -128,9 +131,6 @@ class Legislation(Base):
                     other_entries = other_keys(leg.summary)
                     formatted_entry.update(other_entries)
                     parsed_entries.append(formatted_entry)
-                print(
-                    f"Parsed {len(leg_per_mtg)} legislation from RSS feed for meeting date: {date}"
-                )
             print(f"Removing legislation with no results or votes...")
             parsed_entries_iterator = filter(remove_no_results, parsed_entries)
             formatted_entries = list(parsed_entries_iterator)

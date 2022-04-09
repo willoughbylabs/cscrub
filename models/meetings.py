@@ -103,3 +103,19 @@ class Meeting(Base):
         finally:
             print(f"City Council meetings added to database: {len(records)}")
             session.close()
+
+    @classmethod
+    def get_meetings_links(cls):
+        """Retrieve the links that point to the list of legislation for each meeting."""
+
+        links = []
+        try:
+            session = Session()
+            for link in session.query(cls.link):
+                links.append(link[0])
+            session.close()
+            return links
+        except Exception as e:
+            print(
+                "Error occurred. Unable to retrieve links from meetings in databse.", e
+            )
