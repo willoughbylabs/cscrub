@@ -8,7 +8,6 @@ Built and running using macOS 12.3.1 and Python 3.10.3.
 4. Set configurations in [app.py](../app.py).
 
 ## Install Mac Dependencies
-<hr>
 
 Please double check all main sites before running code hardcorded here, just in case the maintainers' instructions have changed.
 
@@ -37,7 +36,6 @@ Please double check all main sites before running code hardcorded here, just in 
     `brew install pyenv-virtualenv`
 
 ## Configure Mac Dependencies
-<hr>
 
 ### PostgreSQL
 - After completing the [Postgres.app install steps](https://postgresapp.com/), start the PostgreSQL server.
@@ -72,7 +70,6 @@ See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for a
     cscrub3.10.3
     ```
 ## Install Python Dependencies
-<hr>
 
 - All dependencies below can be automatically installed using the `requirements.txt` file.</br>
     `pip install -r requirements.txt`
@@ -101,30 +98,29 @@ See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for a
 
 
 ## Set Configurations in app.py
-<hr>
 
 - A `CONFIGURATIONS` section at the top of [app.py](../app.py) allows for customizing the bot's actions. 
 
-### `create_tables_in_db`
+#### `create_tables_in_db`
 - `TRUE`: creates tables in the database.
 - This should be run as `TRUE` at least once.
 
-### `add_members_to_db`
+#### `add_members_to_db`
 - `TRUE`: fetches and adds City Council members to the `Alderpersons` table.
 
-### `add_meetings_to_db`
+#### `add_meetings_to_db`
 - `TRUE`: fetches and adds City Council meeetings to the `Meetings` table.
 
-### `add_legislation_to_db`
+#### `add_legislation_to_db`
 - `TRUE`: fetches and adds legislation from each meeting to the `Legislation` table.
 - This option can be further customized using `set_legislation_links_list` and `links_list`.
 
-### `set_legislation_links_list`
+#### `set_legislation_links_list`
 - `FALSE`, by default: the bot will fetch legislation for every meeting in the database. 
 - To override this behavior, and only fetch legislation from specific meetings, set this option to `TRUE`. 
 - Use `links_list` to set which meetings to fetch legislation from.
 
-### `links_list`
+#### `links_list`
 - Accepts an `array` of `Meetings` links.
 - Each meeting in the database has a `link` column.
 - To set which meeting to fetch legislation from, obtain the meeting's link, and append to the `links_list` variable.
