@@ -1,4 +1,3 @@
-from os import remove
 from models.helpers import wd_connect
 from .helpers.db_connect import Base, engine, Session, reset_index
 from .helpers import wd_connect
@@ -169,3 +168,43 @@ class Legislation(Base):
             print(f"{len(records)} total legislation added to database.")
         except Exception as e:
             print("Error occurred. Unable to add legislation to database.", e)
+
+    @classmethod
+    def fetch_action_details_links(cls, links):
+        """Fetch action detail links for each legislation in a meeting."""
+
+        def extract_link(string):
+            """Extract a portion of a url from an onclick string. Returns a string."""
+
+            text = re.search("\('(.+?)',", string)
+            return text.group(1)
+
+        def prefix_links(links_arr):
+            """Prefix extracted action details link fragment with the domain."""
+
+            links_with_domains = []
+            domain = "https://chicago.legistar.com/"
+            for link_fragment in links_arr:
+                link = domain + link_fragment
+                links_with_domains.append(link)
+            return links_with_domains
+
+        action_detail_fragments = []
+        driver = wd_connect.start_webdriver()
+        for link in links:
+            try:
+                driver.get(link)
+                action_details = driver.find_elements_by_xpath(
+                    "//*[contains(@id,'_hypDetails')]"
+                )
+                for detail in action_details:
+                    onclick = detail.get_attribute("onclick")
+                    link_fragment = extract_link(onclick)
+                    action_detail_fragments.append(link_fragment)
+            except Exception as e:
+                print(
+                    "Error occurred. Unabled to fetch action detail links from City Clerk site."
+                )
+        wd_connect.quit_webdriver(driver)
+        action_detail_links = prefix_links(action_detail_fragments)
+        return action_detail_links
