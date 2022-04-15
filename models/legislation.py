@@ -170,7 +170,7 @@ class Legislation(Base):
             print("Error occurred. Unable to add legislation to database.", e)
 
     @classmethod
-    def fetch_action_details_links(cls, links):
+    def fetch_action_details_links(cls, links, driver):
         """Fetch action detail links for each legislation in a meeting."""
 
         def extract_link(string):
@@ -190,7 +190,6 @@ class Legislation(Base):
             return links_with_domains
 
         action_detail_fragments = []
-        driver = wd_connect.start_webdriver()
         for link in links:
             try:
                 driver.get(link)
@@ -203,8 +202,8 @@ class Legislation(Base):
                     action_detail_fragments.append(link_fragment)
             except Exception as e:
                 print(
-                    "Error occurred. Unabled to fetch action detail links from City Clerk site."
+                    "Error occurred. Unabled to fetch action detail links from City Clerk site.",
+                    e,
                 )
-        wd_connect.quit_webdriver(driver)
         action_detail_links = prefix_links(action_detail_fragments)
         return action_detail_links
