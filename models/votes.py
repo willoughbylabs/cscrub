@@ -1,9 +1,8 @@
 import re
-
-from requests import session
 from models.helpers import wd_connect
 from models.legislation import Legislation
 from .helpers.db_connect import Base, engine, Session, reset_index
+from selenium.webdriver.common.by import By
 from sqlalchemy import Column, Integer, String, extract
 
 
@@ -31,7 +30,7 @@ class Vote(Base):
         return f"<Vote {vote.record_num} {vote.name} {vote.vote}>"
 
     @classmethod
-    def fetch_votes(cls, links_list):
+    def fetch_and_format_votes(cls, links_list):
         """Fetch votes for legislation."""
 
         driver = wd_connect.start_webdriver()
@@ -44,6 +43,16 @@ class Vote(Base):
 
                 text = re.search("\('(.+?)',", string)
                 return text.group(1)
+
+            def prefix_links(links_arr):
+                """Given an array of link fragments, prefixes the links with a domain."""
+
+                links_with_domains = []
+                domain = "https://chicago.legistar.com/"
+                for link_fragment in links_arr:
+                    link = domain + link_fragment
+                    links_with_domains.append(link)
+                return links_with_domains
 
             action_detail_fragments = []
             for link in links_list:
@@ -61,11 +70,77 @@ class Vote(Base):
                         "Error occured. Unable to fetch action detail links from City Clerk site.",
                         e,
                     )
-            wd_connect.quit_webdriver(driver)
-            return action_detail_fragments
+            action_detail_links = prefix_links(action_detail_fragments)
+            return action_detail_links
+
+        def fetch_votes(links_arr):
+            """Given a list of links to a legislation's votes, fetch member name and casting vote."""
+
+            def extract_members(elements):
+                """Given a list of web elements, extracts and returns council members' names."""
+
+                members = []
+                for e in elements:
+                    member = e.text
+                    members.append(member)
+                return members
+
+            def extract_votes(elements):
+                """Given a list of elements, extract and return a list of votes from the sibling element."""
+
+                votes = []
+                for td in elements:
+                    vote = td.find_element(By.XPATH, "./following-sibling::td").text
+                    votes.append(vote)
+                return votes
+
+            def format_votes(record_num, members, votes):
+                """Given a record_num (string), members (list), and votes (list), return a list of formatted dictionaries."""
+
+                print(f"Formatting votes for legislation record {record_num}.")
+                formatted_votes = []
+                for i in range(len(votes)):
+                    vote = {
+                        "record_num": record_num,
+                        "name": members[i],
+                        "vote": votes[i],
+                    }
+                    formatted_votes.append(vote)
+                return formatted_votes
+
+            formatted_votes = []
+            for link in links_arr:
+                try:
+                    driver.get(link)
+                    record_num = driver.find_element(
+                        By.XPATH, "//*[contains(@id,'_hypFile')]"
+                    ).text
+                    member_els = driver.find_elements(
+                        By.XPATH, "//*[contains(@id,'_hypPerson')]"
+                    )
+                    if len(member_els) == 0:
+                        print(
+                            f"No votes for legislation record number {record_num}. Skipping..."
+                        )
+                        continue
+                    td_els = driver.find_elements(
+                        By.CSS_SELECTOR, "td[style='white-space:nowrap;']"
+                    )
+                    members = extract_members(member_els)
+                    votes = extract_votes(td_els)
+                    formatted_votes += format_votes(record_num, members, votes)
+
+                except Exception as e:
+                    print(
+                        f"Unable to fetch votes for legistion record number {record_num}.",
+                        e,
+                    )
+            return formatted_votes
 
         action_detail_links = fetch_action_detail_links(links_list)
-        return action_detail_links
+        votes = fetch_votes(action_detail_links)
+        wd_connect.quit_webdriver(driver)
+        return votes
 
     # @classmethod
     # def fetch_votes(cls, links):

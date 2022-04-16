@@ -50,5 +50,5 @@ if add_legislation_to_db:
 if add_votes_to_db:
     if set_votes_links_list:
         links = links_list
-    votes = Vote.fetch_votes(links)
-    print(len(votes))
+    votes = Vote.fetch_and_format_votes(links)
+    print(votes)
