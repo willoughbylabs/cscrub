@@ -16,9 +16,9 @@ add_legislation_to_db = True
 
 set_legislation_links_list = True
 
-add_votes_to_db = False
+add_votes_to_db = True
 
-set_votes_links_list = False
+set_votes_links_list = True
 
 links_list = [
     "https://chicago.legistar.com/MeetingDetail.aspx?ID=505011&GUID=AC673713-8FC1-47CF-A160-D31BC131DF03",
@@ -53,7 +53,7 @@ if add_legislation_to_db:
 if add_votes_to_db:
     if set_votes_links_list:
         links = links_list
-    votes = Vote.fetch_and_format_votes(links)
+    votes = Vote.fetch_and_format_votes(links, driver)
     records = Vote.create_records(votes)
     Vote.add_votes_to_db(records)
 

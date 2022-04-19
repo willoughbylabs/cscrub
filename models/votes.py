@@ -30,10 +30,10 @@ class Vote(Base):
         return f"<Vote {vote.record_num} {vote.name} {vote.vote}>"
 
     @classmethod
-    def fetch_and_format_votes(cls, links_list):
+    def fetch_and_format_votes(cls, links_list, driver):
         """Fetch votes for legislation."""
 
-        driver = wd_connect.start_webdriver()
+        # driver = wd_connect.start_webdriver()
 
         def fetch_action_detail_links(links_list):
             """Fetch action detail links for each legislation in a meeting."""
@@ -139,7 +139,7 @@ class Vote(Base):
 
         action_detail_links = fetch_action_detail_links(links_list)
         votes = fetch_votes(action_detail_links)
-        wd_connect.quit_webdriver(driver)
+        # wd_connect.quit_webdriver(driver)
         return votes
 
     @classmethod
