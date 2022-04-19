@@ -31,7 +31,6 @@ class Alderperson(Base):
 
         members = []
         url = "https://chicago.legistar.com/People.aspx"
-        # driver = wd_connect.start_webdriver()
 
         try:
             driver.get(url)
@@ -70,7 +69,7 @@ class Alderperson(Base):
                 "Error occurred. Unable to fetch council members from City Clerk site.",
                 e,
             )
-        # wd_connect.quit_webdriver(driver)
+
         return members
 
     @classmethod
