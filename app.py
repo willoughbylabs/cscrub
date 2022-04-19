@@ -8,9 +8,9 @@ from models.votes import Vote
 # CONFIGURATIONS
 create_tables_in_db = True
 
-add_members_to_db = True
+add_meetings_to_db = True
 
-add_meetings_to_db = False
+add_members_to_db = True
 
 add_legislation_to_db = False
 
@@ -31,15 +31,15 @@ if create_tables_in_db:
 
 driver = wd_connect.start_webdriver()
 
-if add_members_to_db:
-    members = Alderperson.fetch_members(driver)
-    records = Alderperson.create_records(members)
-    Alderperson.add_members_to_db(records)
-
 if add_meetings_to_db:
     meetings = Meeting.fetch_meetings()
     records = Meeting.create_records(meetings)
     Meeting.add_meetings_to_db(records)
+
+if add_members_to_db:
+    members = Alderperson.fetch_members(driver)
+    records = Alderperson.create_records(members)
+    Alderperson.add_members_to_db(records)
 
 if add_legislation_to_db:
     if set_legislation_links_list:

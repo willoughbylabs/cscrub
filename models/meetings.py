@@ -101,7 +101,7 @@ class Meeting(Base):
         except Exception as e:
             print("Error occurred. Unable to add meetings to database.", e)
         finally:
-            print(f"City Council meetings added to database: {len(records)}")
+            print(f"City council meetings added to database: {len(records)}")
             session.close()
 
     @classmethod
