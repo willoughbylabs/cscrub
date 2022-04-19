@@ -12,9 +12,9 @@ add_meetings_to_db = True
 
 add_members_to_db = True
 
-add_legislation_to_db = False
+add_legislation_to_db = True
 
-set_legislation_links_list = False
+set_legislation_links_list = True
 
 add_votes_to_db = False
 
@@ -46,7 +46,7 @@ if add_legislation_to_db:
         links = links_list
     else:
         links = Meeting.get_meetings_links()
-    entries = Legislation.fetch_legislation(links)
+    entries = Legislation.fetch_legislation(links, driver)
     records = Legislation.create_records(entries)
     Legislation.add_legislation_to_db(records)
 

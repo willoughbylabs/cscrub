@@ -35,11 +35,11 @@ class Legislation(Base):
         return f"<Legislation {legislation.id} {legislation.record_num} {legislation.mtg_date}>"
 
     @classmethod
-    def fetch_legislation(cls, links):
+    def fetch_legislation(cls, links, driver):
         """Fetch legislation from City Clerk RSS feed."""
 
         legislation_entries = []
-        driver = wd_connect.start_webdriver()
+        # driver = wd_connect.start_webdriver()
 
         for index, link in enumerate(links):
             try:
@@ -73,7 +73,7 @@ class Legislation(Base):
                 )
                 continue
 
-        wd_connect.quit_webdriver(driver)
+        # wd_connect.quit_webdriver(driver)
         return legislation_entries
 
     @classmethod
@@ -169,41 +169,41 @@ class Legislation(Base):
         except Exception as e:
             print("Error occurred. Unable to add legislation to database.", e)
 
-    @classmethod
-    def fetch_action_details_links(cls, links, driver):
-        """Fetch action detail links for each legislation in a meeting."""
+    # @classmethod
+    # def fetch_action_details_links(cls, links, driver):
+    #     """Fetch action detail links for each legislation in a meeting."""
 
-        def extract_link(string):
-            """Extract a portion of a url from an onclick string. Returns a string."""
+    #     def extract_link(string):
+    #         """Extract a portion of a url from an onclick string. Returns a string."""
 
-            text = re.search("\('(.+?)',", string)
-            return text.group(1)
+    #         text = re.search("\('(.+?)',", string)
+    #         return text.group(1)
 
-        def prefix_links(links_arr):
-            """Prefix extracted action details link fragment with the domain."""
+    #     def prefix_links(links_arr):
+    #         """Prefix extracted action details link fragment with the domain."""
 
-            links_with_domains = []
-            domain = "https://chicago.legistar.com/"
-            for link_fragment in links_arr:
-                link = domain + link_fragment
-                links_with_domains.append(link)
-            return links_with_domains
+    #         links_with_domains = []
+    #         domain = "https://chicago.legistar.com/"
+    #         for link_fragment in links_arr:
+    #             link = domain + link_fragment
+    #             links_with_domains.append(link)
+    #         return links_with_domains
 
-        action_detail_fragments = []
-        for link in links:
-            try:
-                driver.get(link)
-                action_details = driver.find_elements_by_xpath(
-                    "//*[contains(@id,'_hypDetails')]"
-                )
-                for detail in action_details:
-                    onclick = detail.get_attribute("onclick")
-                    link_fragment = extract_link(onclick)
-                    action_detail_fragments.append(link_fragment)
-            except Exception as e:
-                print(
-                    "Error occurred. Unabled to fetch action detail links from City Clerk site.",
-                    e,
-                )
-        action_detail_links = prefix_links(action_detail_fragments)
-        return action_detail_links
+    #     action_detail_fragments = []
+    #     for link in links:
+    #         try:
+    #             driver.get(link)
+    #             action_details = driver.find_elements_by_xpath(
+    #                 "//*[contains(@id,'_hypDetails')]"
+    #             )
+    #             for detail in action_details:
+    #                 onclick = detail.get_attribute("onclick")
+    #                 link_fragment = extract_link(onclick)
+    #                 action_detail_fragments.append(link_fragment)
+    #         except Exception as e:
+    #             print(
+    #                 "Error occurred. Unabled to fetch action detail links from City Clerk site.",
+    #                 e,
+    #             )
+    #     action_detail_links = prefix_links(action_detail_fragments)
+    #     return action_detail_links
