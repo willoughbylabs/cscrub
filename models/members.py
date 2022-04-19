@@ -1,4 +1,4 @@
-from .helpers import wd_connect
+# from .helpers import wd_connect
 from .helpers.db_connect import Base, engine, Session, reset_table
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
@@ -26,12 +26,12 @@ class Alderperson(Base):
         return f"<Alderperson {alderperson.id} {alderperson.name}>"
 
     @classmethod
-    def fetch_members(cls):
+    def fetch_members(cls, driver):
         """Fetch council members from City Clerk site and add <id, name> of members to Alderperson table."""
 
         members = []
         url = "https://chicago.legistar.com/People.aspx"
-        driver = wd_connect.start_webdriver()
+        # driver = wd_connect.start_webdriver()
 
         try:
             driver.get(url)
@@ -70,7 +70,7 @@ class Alderperson(Base):
                 "Error occurred. Unable to fetch council members from City Clerk site.",
                 e,
             )
-        wd_connect.quit_webdriver(driver)
+        # wd_connect.quit_webdriver(driver)
         return members
 
     @classmethod

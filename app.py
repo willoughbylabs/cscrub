@@ -1,5 +1,6 @@
 from models.helpers import db_connect
 from models.members import Alderperson
+from models.helpers import wd_connect
 from models.meetings import Meeting
 from models.legislation import Legislation
 from models.votes import Vote
@@ -9,15 +10,15 @@ create_tables_in_db = True
 
 add_members_to_db = True
 
-add_meetings_to_db = True
+add_meetings_to_db = False
 
-add_legislation_to_db = True
+add_legislation_to_db = False
 
-set_legislation_links_list = True
+set_legislation_links_list = False
 
-add_votes_to_db = True
+add_votes_to_db = False
 
-set_votes_links_list = True
+set_votes_links_list = False
 
 links_list = [
     "https://chicago.legistar.com/MeetingDetail.aspx?ID=505011&GUID=AC673713-8FC1-47CF-A160-D31BC131DF03",
@@ -28,8 +29,10 @@ links_list = [
 if create_tables_in_db:
     db_connect.create_tables()
 
+driver = wd_connect.start_webdriver()
+
 if add_members_to_db:
-    members = Alderperson.fetch_members()
+    members = Alderperson.fetch_members(driver)
     records = Alderperson.create_records(members)
     Alderperson.add_members_to_db(records)
 
@@ -53,3 +56,5 @@ if add_votes_to_db:
     votes = Vote.fetch_and_format_votes(links)
     records = Vote.create_records(votes)
     Vote.add_votes_to_db(records)
+
+wd_connect.quit_webdriver(driver)
