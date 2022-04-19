@@ -6,11 +6,13 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
 def start_webdriver():
+    print("Starting webdriver...")
     driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()))
     return driver
 
 
 def quit_webdriver(driver):
+    print("Quitting webdriver...")
     driver.quit()
 
 

@@ -1,5 +1,5 @@
 from models.helpers import wd_connect
-from .helpers.db_connect import Base, engine, Session, reset_index
+from .helpers.db_connect import Base, engine, Session, reset_table
 from .helpers import wd_connect
 import re
 from sqlalchemy import Column, String, Integer
@@ -160,7 +160,7 @@ class Legislation(Base):
         try:
             session = Session()
             session.query(cls).delete()
-            reset_index("legislation")
+            reset_table("legislation")
             print("Adding legislation to database...")
             session.add_all(records)
             session.commit()

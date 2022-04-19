@@ -1,4 +1,4 @@
-from .helpers.db_connect import Base, engine, Session, reset_index
+from .helpers.db_connect import Base, engine, Session, reset_table
 from .helpers.wd_connect import fetch_rss_entries
 from sqlalchemy import Column, String, Integer
 
@@ -94,8 +94,8 @@ class Meeting(Base):
         try:
             session = Session()
             session.query(cls).delete()
-            reset_index("meetings")
-            print("Add council meetings to database...")
+            reset_table("meetings")
+            print("Adding council meetings to database...")
             session.add_all(records)
             session.commit()
         except Exception as e:

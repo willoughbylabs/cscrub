@@ -1,5 +1,5 @@
 from .helpers import wd_connect
-from .helpers.db_connect import Base, engine, Session, reset_index
+from .helpers.db_connect import Base, engine, Session, reset_table
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from sqlalchemy import Column, String, Integer
@@ -29,11 +29,11 @@ class Alderperson(Base):
     def fetch_members(cls):
         """Fetch council members from City Clerk site and add <id, name> of members to Alderperson table."""
 
+        members = []
         url = "https://chicago.legistar.com/People.aspx"
         driver = wd_connect.start_webdriver()
 
         try:
-            members = []
             driver.get(url)
             time.sleep(1)
 
@@ -65,15 +65,13 @@ class Alderperson(Base):
             )
             for member in page2_members:
                 members.append(member.text)
-            return members
         except Exception as e:
             print(
                 "Error occurred. Unable to fetch council members from City Clerk site.",
                 e,
             )
-            wd_connect.quit_webdriver(driver)
-        finally:
-            wd_connect.quit_webdriver(driver)
+        wd_connect.quit_webdriver(driver)
+        return members
 
     @classmethod
     def create_records(cls, members_arr):
@@ -82,7 +80,7 @@ class Alderperson(Base):
         try:
             members = []
             for member in members_arr:
-                new_member = cls(name=member)
+                new_member = Alderperson(name=member)
                 members.append(new_member)
             return members
         except Exception as e:
@@ -98,12 +96,11 @@ class Alderperson(Base):
         try:
             session = Session()
             session.query(cls).delete()
-            reset_index("alderpersons")
+            reset_table("alderpersons")
             print("Adding council members to database...")
             session.add_all(records)
             session.commit()
-        except Exception as e:
-            print("Error occured. Unable to add records to PostgreSQL database.", e)
-        finally:
             print(f"Council members added to database: {len(records)}")
             session.close()
+        except Exception as e:
+            print("Error occured. Unable to add records to PostgreSQL database.", e)

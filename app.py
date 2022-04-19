@@ -5,15 +5,15 @@ from models.legislation import Legislation
 from models.votes import Vote
 
 # CONFIGURATIONS
-create_tables_in_db = False
+create_tables_in_db = True
 
-add_members_to_db = False
+add_members_to_db = True
 
-add_meetings_to_db = False
+add_meetings_to_db = True
 
-add_legislation_to_db = False
+add_legislation_to_db = True
 
-set_legislation_links_list = False
+set_legislation_links_list = True
 
 add_votes_to_db = True
 
@@ -51,4 +51,5 @@ if add_votes_to_db:
     if set_votes_links_list:
         links = links_list
     votes = Vote.fetch_and_format_votes(links)
-    print(votes)
+    records = Vote.create_records(votes)
+    Vote.add_votes_to_db(records)

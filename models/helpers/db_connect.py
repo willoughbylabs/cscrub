@@ -14,13 +14,15 @@ def create_tables():
     try:
         Base.metadata.create_all(engine)
         print("Tables created.")
+        return
     except Exception as e:
         print("Error occured. Unable to create tables.", e)
 
 
-def reset_index(table):
+def reset_table(table):
     """Resets the autoincrementing index count for a table."""
 
     statement = text(f"ALTER SEQUENCE {table}_id_seq RESTART")
-    with engine.connect() as connection:
-        result = connection.execute(statement)
+    with engine.begin() as connection:
+        connection.execute(statement)
+    return
