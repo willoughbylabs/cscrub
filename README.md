@@ -20,4 +20,8 @@ City Council vote data is publicly available on the [City Clerk's website](https
 
 ## Resources
 A shoutout to these folks for the assists!</br>
+<<<<<<< HEAD
 [resources.md](/docs/resources.md)
+=======
+[/docs/resources.md](/docs/resources.md)
+>>>>>>> f5f10f1857e3b0c3ba98b6d72bfd2d298ee88bb5
