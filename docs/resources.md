@@ -29,3 +29,5 @@
     - [Hashrocket | Today I Learned](https://til.hashrocket.com/posts/da9ade5291-clear-the-screen-in-psql)
 - For passing options to Chrome with webdriver
     - [Stack Overflow](https://stackoverflow.com/questions/12698843/how-do-i-pass-options-to-the-selenium-chrome-driver-using-python)
+- For deploying Selenium to Heroku
+    [Romik Kelesh](https://romik-kelesh.medium.com/how-to-deploy-a-python-web-scraper-with-selenium-on-heroku-1459cb3ac76c)
