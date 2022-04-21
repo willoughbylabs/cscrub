@@ -5,8 +5,8 @@ Please note: This project is currently being built. Swagger documentation and al
 ## Endpoints
 
 ### Meetings
-`/api/meetings` </br>
-`/api/meetings?year=2021`
+GET`/api/meetings` </br>
+GET `/api/meetings?year=2021`
 ```
 meetings: [
     {
@@ -19,6 +19,7 @@ meetings: [
     ...
 ]
 ```
+POST `/api/meetings`
 
 ### Members (Alderpersons)
 `/api/members`
@@ -31,6 +32,7 @@ members: [
     ...
 ]
 ```
+POST `/api/members`
 
 ### Legislation
 `/api/legislation`</br>
@@ -49,6 +51,7 @@ legislation: [
     ...
 ]
 ```
+POST `/api/legislation`
 
 ### Votes
 `/api/votes`</br>
@@ -66,3 +69,4 @@ votes: [
     ...
 ]
 ```
+POST `/api/votes`

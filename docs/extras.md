@@ -13,3 +13,25 @@ Use meeting links to obtain legislation from specific meetings.
 [https://chicago.legistar.com/MeetingDetail.aspx?ID=505011&GUID=AC673713-8FC1-47CF-A160-D31BC131DF03](https://chicago.legistar.com/MeetingDetail.aspx?ID=505011&GUID=AC673713-8FC1-47CF-A160-D31BC131DF03)
 - 11/24/2020 - 11 legislation</br>
 [https://chicago.legistar.com/MeetingDetail.aspx?ID=818175&GUID=D65139E8-BF1C-4F44-9CE4-3C40DA5EC1E9](https://chicago.legistar.com/MeetingDetail.aspx?ID=818175&GUID=D65139E8-BF1C-4F44-9CE4-3C40DA5EC1E9)
+
+Directory Schema
+
+main.py
+README.md
+requirements.txt
+
+	models
+		meetings
+		votes
+		members
+		legislation
+	helpers
+		webdriver_connection
+		database_connection
+	docs
+		bot
+		api
+		resources	
+		extras
+	img
+		readme_stuff

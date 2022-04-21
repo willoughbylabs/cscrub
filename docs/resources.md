@@ -27,3 +27,5 @@
     - [Stack Overflow](https://stackoverflow.com/questions/64580493/selenium-giving-message-no-such-window-target-window-already-closed-from-unkn)
 - For clearing the terminal screen with psql
     - [Hashrocket | Today I Learned](https://til.hashrocket.com/posts/da9ade5291-clear-the-screen-in-psql)
+- For passing options to Chrome with webdriver
+    - [Stack Overflow](https://stackoverflow.com/questions/12698843/how-do-i-pass-options-to-the-selenium-chrome-driver-using-python)

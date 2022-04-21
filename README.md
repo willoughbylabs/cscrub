@@ -1,10 +1,10 @@
 # CScrub API 
+
 ## Chicago City Council Votes at Your Fingertips
+Please note: This project is currently being rebuilt. All features are not yet operational in this build.
 
 ## Summary
-Please note: This project is currently being rebuilt. All features are not yet operational in this build.</br>
-The bot extracts council members, legistlation, meetings, and votes from the Chicago City Clerk's website. This data is then used to power this API.
-For bot documentation, please visit [/docs/bot.md](./docs/bot.md). For API documentation, please visit [/docs/api.md](./docs/api.md).
+The bot extracts council members, legistlation, meetings, and votes from the Chicago City Clerk's website. This data is then used to power this API. For bot documentation, please visit [/docs/bot.md](./docs/bot.md). For API documentation, please visit [/docs/api.md](./docs/api.md).
 
 ## What For
 To convert this:
@@ -19,4 +19,5 @@ City Council vote data is publicly available on the [City Clerk's website](https
 - Only fetches first 200 legislation for each meeting.
 
 ## Resources
-A shoutout to these folks for the assists. [resources.md](/docs/resources.md)
+A shoutout to these folks for the assists!</br>
+[resources.md](/docs/resources.md)
