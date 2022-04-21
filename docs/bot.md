@@ -1,4 +1,4 @@
-# Build From Source
+# Build Bot From Source
 Built and running using macOS 12.3.1 and Python 3.10.3.
 
 ## Steps
@@ -83,6 +83,7 @@ See [pyenv-virtualenv's GitHub](https://github.com/pyenv/pyenv-virtualenv) for a
 ### Webdriver Manager
 - [Webdriver Manager](https://github.com/SergeyPirogov/webdriver_manager) updates the webdriver version to remain compatible with the broswer version.</br> 
     `pip install webdriver-manager`
+- In [`models/helpers/wd_connect.py`](../models/helpers/wd_connect.py), please note to set the imports at the top based on the browser you intend to use (more info available from [webdriver-manager's site](https://pypi.org/project/webdriver-manager/)).
 
 ### psycopg2-binary
 - [psycopg2-binary](https://pypi.org/project/psycopg2-binary/) is an adapater for PostgreSQL.</br>
