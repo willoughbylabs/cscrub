@@ -12,7 +12,7 @@ chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
 
 driver = webdriver.Chrome(
-    executable_path=os.environe.get("CHROMDRIVER_PATH"), options=chrome_options
+    executable_path=os.environ.get("CHROMDRIVER_PATH"), options=chrome_options
 )
 
 url = "https://chicago.legistar.com/People.aspx"
