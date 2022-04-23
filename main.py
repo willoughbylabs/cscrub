@@ -1,5 +1,7 @@
 import time
 import os
+import uvicorn
+from fastapi import FastAPI
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -14,16 +16,24 @@ chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 fetch_data = True
 
 # APP
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
 def run_app():
-    """Run Cscrub bot and API with the set configurations."""
+    """Run CScrub bot and API with the set configurations."""
 
     if fetch_data:
         fetch_data()
-    return
 
 
 def fetch_data():
     """Fetch data from the Chicago City Clerk site using the CScrub bot."""
+
     driver = webdriver.Chrome(
         executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options
     )
@@ -41,3 +51,4 @@ def fetch_data():
 
 
 run_app()
+uvicorn.run("main:app")
